@@ -6,7 +6,7 @@ const initialState = {
             id: "cspm",
             name: "CSPM Executive Dashboard",
             widgets: [
-                { id: "widget-1", name: "Cloud Accounts", text: "Sample data for Cloud Accounts", isVisible: false },
+                { id: "widget-1", name: "Cloud Accounts", text: "Sample data for Cloud Accounts", isVisible: true },
                 { id: "widget-2", name: "Cloud Account Risk Assessment", text: "Sample data for Risk Assessment", isVisible: true }
             ]
         },
