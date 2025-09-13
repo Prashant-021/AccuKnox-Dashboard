@@ -7,10 +7,6 @@ A dynamic and interactive dashboard built with React and Redux Toolkit, allowing
 Experience the dashboard in action:  
 [AccuKnox Dashboard Live Demo](https://accuknox-dashboard-task.netlify.app/)
 
-## 📸 Dashboard Preview
-
-![Alt text](demo.png)
-
 ## 🧱 Features
 
 - **Dynamic Widget Management**: Add, remove, and toggle visibility of widgets within categories.
