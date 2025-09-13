@@ -1,4 +1,4 @@
-import { Button, Divider, Drawer, Form, Input, Tabs } from 'antd'
+import { Button, Divider, Drawer, Form, Input, Select, Tabs } from 'antd'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addWidget } from "../redux/dashboardSlice";
@@ -9,7 +9,8 @@ const AddWidgetModal = ({ isOpen, onClose, activeCategory, setActiveCategory }) 
     const dispatch = useDispatch();
     const [form] = Form.useForm();
 
-    const items = categories.map((category) => ({ key: category.id, label: category.name, children: <WidgetList widgets={category.widgets} activeCategory={activeCategory} editView={true} /> }))
+    const categoryItems = categories.map((category) => ({ key: category.id, label: category.name, children: <WidgetList widgets={category.widgets} activeCategory={activeCategory} editView={true} /> }))
+    const categoryOptions = categories.map((category) => ({ value: category.id, label: category.name }))
     const handleTabChange = (key) => {
         setActiveCategory(key);
     };
@@ -18,8 +19,7 @@ const AddWidgetModal = ({ isOpen, onClose, activeCategory, setActiveCategory }) 
         form.validateFields()
             .then((values) => {
                 console.log(values);
-                dispatch(addWidget(activeCategory, values.widgetName, values.widgetText));
-                message.success('Widget Added');
+                dispatch(addWidget(values.widgetCategory, values.widgetName, values.widgetText));
                 form.resetFields();
             }).catch(info => {
                 console.log("validation failed:", info);
@@ -41,10 +41,16 @@ const AddWidgetModal = ({ isOpen, onClose, activeCategory, setActiveCategory }) 
             width={800}
         >
             <p className='font-semibold'>Personalise your dashboard by adding following widgets</p>
-            <Tabs activeKey={activeCategory} items={items} onChange={handleTabChange} />
+            <Tabs activeKey={activeCategory} items={categoryItems} onChange={handleTabChange} />
             <Divider />
             <p className='font-semibold mb-4'>Add New Widget</p>
             <Form form={form} layout="vertical">
+                <Form.Item label="Widget Category"
+                    name="widgetCategory"
+                    rules={[{ required: true, message: "Please select widget category!" }]}>
+                    <Select allowClear options={categoryOptions} placeholder="Select Widget Category" />
+
+                </Form.Item>
                 <Form.Item label="Widget Name"
                     name="widgetName"
                     rules={[{ required: true, message: "Please enter a widget name!" }]}>

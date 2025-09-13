@@ -30,7 +30,7 @@ const Dashboard = () => {
     return (
         <div className='p-6 space-y-6'>
             <div className='flex justify-between'>
-                <h1 className='text-2xl font-bold mb-4'>CNAAP Dashboard</h1>
+                <h1 className='text-2xl font-bold mb-2'>CNAAP Dashboard</h1>
                 <Input.Search
                     placeholder="Search widgets..."
                     allowClear
@@ -44,7 +44,7 @@ const Dashboard = () => {
                     <div className='flex gap-4' >
                         <WidgetList activeCategory={category.id} widgets={category.widgets}
                             searchTerm={searchTerm} />
-                        <div className='bg-white min-w-96 p-4 rounded-xl shadow relative flex justify-center'>
+                        <div className='bg-white min-w-96 p-3 overflow-x-scroll rounded-xl relative flex justify-center'>
                             <button onClick={() => handleOpenAddWidgetModal(category.id)} className="border-2 p-2 border-gray-400 rounded-xl text-gray-500 hover:bg-gray-200"
                             >
                                 + Add Widget

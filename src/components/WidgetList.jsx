@@ -34,12 +34,7 @@ const WidgetList = ({ widgets, activeCategory, editView = false, searchTerm }) =
                     >
                         <Checkbox value={widget.id} title={widget.id} checked={widget.isVisible} onChange={handleWidgetVisibility} />
                         <div className='w-3/4'>
-                            <Text className=' font-bold' ellipsis={{
-                                rows: 1,
-                                expandable: false,
-                                expanded: false,
-                                // onExpand: (_, info) => setExpanded(info.expanded),
-                            }}>{widget.name}</Text>
+                            <Text className=' font-bold'>{widget.name}</Text>
                             {
                                 !editView && <Paragraph ellipsis={{
                                     rows: 1,
