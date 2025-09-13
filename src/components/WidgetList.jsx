@@ -54,8 +54,8 @@ const WidgetList = ({ widgets, activeCategory, editView = false, searchTerm }) =
                         </div>
                         <Tooltip title="Delete">
                             <Popconfirm
-                                title="Delete the task"
-                                description="Are you sure to delete this task?"
+                                title="Delete the widget"
+                                description="Are you sure to delete this widget?"
                                 onConfirm={() => handleWidgetDelete(activeCategory, widget.id)}
                                 okText="Yes"
                                 cancelText="No"
