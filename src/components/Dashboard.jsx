@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useState } from 'react'
+import { useSelector } from 'react-redux';
 import AddWidgetModal from './AddWidgetModal';
-import { Button, Card, Tooltip } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
 
-import { addWidget, removeWidget } from '../redux/dashboardSlice';
+import { debounce } from "lodash";
+import WidgetList from './WidgetList';
+
 const Dashboard = () => {
     const { categories } = useSelector((state) => state.dashboard);
-    const dispatch = useDispatch()
     const [isAddWidgetModalOpen, setIsAddWidgetModalOpen] = useState(false)
     const [activeCategory, setActiveCategory] = useState(null)
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleOpenAddWidgetModal = (categoryId) => {
         setActiveCategory(categoryId)
@@ -19,33 +20,31 @@ const Dashboard = () => {
         setIsAddWidgetModalOpen(false)
         setActiveCategory(null)
     }
-    const handleWidgetDelete = (categoryId, widgetId) => {
-        dispatch(removeWidget({ categoryId, widgetId }));
-    }
+    const handleSearch = useCallback(
+        debounce((value) => {
+            setSearchTerm(value.toLowerCase());
+        }, 300),
+        []
+    );
+
     return (
         <div className='p-6 space-y-6'>
-            <h1 className='text-2xl font-bold mb-4'>CNAAP Dashboard</h1>
+            <div className='flex justify-between'>
+                <h1 className='text-2xl font-bold mb-4'>CNAAP Dashboard</h1>
+                <Input.Search
+                    placeholder="Search widgets..."
+                    allowClear
+                    onChange={(e) => handleSearch(e.target.value)}
+                    style={{ maxWidth: 400, marginBottom: 20 }}
+                />
+            </div>
             {categories.map((category) => (
                 <div key={category.id} className='bg-gray-100 p-4'>
                     <h2 className='text-xl font-semibold mb-4'>{category.name}</h2>
-                    <div className='grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3 gap-4' >
-                        {category.widgets.map((widget) => (
-                            widget.isVisible && <div
-                                key={widget.id}
-                                className='bg-white flex p-4 rounded-xl shadow relative'
-                            >
-                                <div className='flex-grow'>
-
-                                    <h3 className='font-bold'>{widget.name}</h3>
-                                    <p className='text-sm text-gray-600'>{widget.text}</p>
-                                </div>
-                                <Tooltip title="Delete">
-                                    <Button className='' color="danger" variant="outlined" shape="circle" icon={<DeleteOutlined />} onClick={() => handleWidgetDelete(category.id, widget.id)} />
-                                </Tooltip>
-                            </div>
-                        )
-                        )}
-                        <div className='bg-white p-4 rounded-xl shadow relative flex justify-center'>
+                    <div className='flex gap-4' >
+                        <WidgetList activeCategory={category.id} widgets={category.widgets}
+                            searchTerm={searchTerm} />
+                        <div className='bg-white min-w-96 p-4 rounded-xl shadow relative flex justify-center'>
                             <button onClick={() => handleOpenAddWidgetModal(category.id)} className="border-2 p-2 border-gray-400 rounded-xl text-gray-500 hover:bg-gray-200"
                             >
                                 + Add Widget
